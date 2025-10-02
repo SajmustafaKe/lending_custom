@@ -27,30 +27,6 @@
 	},
 	{
 		"doctype": "Custom Field",
-		"name": "Loan Application-total_interest_amount",
-		"dt": "Loan Application",
-		"fieldname": "total_interest_amount",
-		"fieldtype": "Currency",
-		"label": "Total Interest Amount",
-		"insert_after": "repayment_amount",
-		"read_only": 1,
-		"description": "Total interest calculated based on the interest calculation method.",
-		"reqd": 0
-	},
-	{
-		"doctype": "Custom Field",
-		"name": "Loan Application-total_payable_amount",
-		"dt": "Loan Application",
-		"fieldname": "total_payable_amount",
-		"fieldtype": "Currency",
-		"label": "Total Payable Amount",
-		"insert_after": "total_interest_amount",
-		"read_only": 1,
-		"description": "Total amount payable including principal and interest.",
-		"reqd": 0
-	},
-	{
-		"doctype": "Custom Field",
 		"name": "Loan-interest_calculation_method",
 		"dt": "Loan",
 		"fieldname": "interest_calculation_method",
@@ -60,30 +36,6 @@
 		"default": "Monthly Prorated",
 		"insert_after": "rate_of_interest",
 		"description": "Monthly Prorated: Interest calculated monthly (rate/12 * principal). One-time Percentage: Interest calculated as percentage of principal amount.",
-		"reqd": 0
-	},
-	{
-		"doctype": "Custom Field",
-		"name": "Loan-total_interest_payable",
-		"dt": "Loan",
-		"fieldname": "total_interest_payable",
-		"fieldtype": "Currency",
-		"label": "Total Interest Payable",
-		"insert_after": "loan_amount",
-		"read_only": 1,
-		"description": "Total interest amount to be paid over the loan term.",
-		"reqd": 0
-	},
-	{
-		"doctype": "Custom Field",
-		"name": "Loan-total_payable_amount",
-		"dt": "Loan",
-		"fieldname": "total_payable_amount",
-		"fieldtype": "Currency",
-		"label": "Total Payable Amount",
-		"insert_after": "total_interest_payable",
-		"read_only": 1,
-		"description": "Total amount payable including principal and interest.",
 		"reqd": 0
 	}
 ]
