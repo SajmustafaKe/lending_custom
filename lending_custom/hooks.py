@@ -85,6 +85,13 @@ app_license = "mit"
 # before_install = "lending_custom.install.before_install"
 # after_install = "lending_custom.install.after_install"
 
+# Patches
+# -------
+
+patches = [
+	"lending_custom.patches.add_interest_calculation_method"
+]
+
 # Uninstallation
 # ------------
 
