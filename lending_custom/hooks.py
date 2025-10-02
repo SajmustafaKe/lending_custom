@@ -129,54 +129,11 @@ app_license = "mit"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
-
-# Document Events
-# ---------------
-# Hook on document methods and events
-
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
-
-# Scheduled Tasks
-# ---------------
-
-# scheduler_events = {
-# 	"all": [
-# 		"lending_custom.tasks.all"
-# 	],
-# 	"daily": [
-# 		"lending_custom.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"lending_custom.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"lending_custom.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"lending_custom.tasks.monthly"
-# 	],
-# }
-
-# Testing
-# -------
-
-# before_tests = "lending_custom.install.before_tests"
-
-# Overriding Methods
-# ------------------------------
-#
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "lending_custom.event.get_events"
-# }
+override_doctype_class = {
+	"Loan Application": "lending_custom.overrides.LoanApplicationOverride",
+	"Loan": "lending_custom.overrides.LoanOverride",
+	"Loan Repayment Schedule": "lending_custom.overrides.LoanRepaymentScheduleOverride"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
