@@ -24,6 +24,19 @@ class LoanApplicationOverride(LoanApplication):
 		# Call parent validate
 		super().validate()
 
+	def validate_repayment_method(self):
+		interest_calc_method = getattr(self, 'interest_calculation_method', 'Monthly Prorated')
+		
+		if self.repayment_method == "Repay Over Number of Periods" and not self.repayment_periods:
+			frappe.throw(_("Please enter Repayment Periods"))
+
+		if self.repayment_method == "Repay Fixed Amount per Period":
+			if not self.repayment_amount:
+				frappe.throw(_("Please enter repayment Amount"))
+			# For one-time percentage, repayment amount can be greater than loan amount
+			if interest_calc_method != "One-time Percentage" and self.repayment_amount > self.loan_amount:
+				frappe.throw(_("Monthly Repayment Amount cannot be greater than Loan Amount"))
+
 	def get_repayment_details(self):
 		"""Calculate repayment details based on repayment method and interest calculation method"""
 		interest_calc_method = getattr(self, 'interest_calculation_method', 'Monthly Prorated')
