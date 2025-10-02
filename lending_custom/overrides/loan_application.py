@@ -13,26 +13,30 @@ from lending_custom.interest_calculations import (
 class LoanApplicationOverride(LoanApplication):
 	def validate(self):
 		# Set interest calculation method from loan product if not set
-		if not self.interest_calculation_method and self.loan_product:
-			self.interest_calculation_method = frappe.db.get_value(
+		interest_calc_method = getattr(self, 'interest_calculation_method', None)
+		if not interest_calc_method and self.loan_product:
+			interest_calc_method = frappe.db.get_value(
 				"Loan Product", self.loan_product, "interest_calculation_method"
 			) or "Monthly Prorated"
+			if hasattr(self, 'interest_calculation_method'):
+				self.interest_calculation_method = interest_calc_method
 
 		# Call parent validate
 		super().validate()
 
 	def get_repayment_details(self):
 		"""Calculate repayment details based on repayment method and interest calculation method"""
+		interest_calc_method = getattr(self, 'interest_calculation_method', 'Monthly Prorated')
 		if self.is_term_loan:
 			if self.repayment_method == "Repay Over Number of Periods":
 				from lending_custom.interest_calculations import get_monthly_repayment_amount_custom
 				self.repayment_amount = get_monthly_repayment_amount_custom(
-					self.loan_amount, self.rate_of_interest, self.repayment_periods, self.interest_calculation_method
+					self.loan_amount, self.rate_of_interest, self.repayment_periods, interest_calc_method
 				)
 				print(f"DEBUG: Calculated repayment_amount = {self.repayment_amount}")
 
 			if self.repayment_method == "Repay Fixed Amount per Period":
-				if self.interest_calculation_method == "One-time Percentage":
+				if interest_calc_method == "One-time Percentage":
 					# For one-time percentage, calculate periods based on total amount
 					total_amount = self.loan_amount * (1 + self.rate_of_interest / 100)
 					if self.repayment_amount and self.repayment_amount > 0:
