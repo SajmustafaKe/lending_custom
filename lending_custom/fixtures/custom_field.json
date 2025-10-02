@@ -1,6 +1,7 @@
 [
 	{
 		"doctype": "Custom Field",
+		"name": "Loan Product-interest_calculation_method",
 		"dt": "Loan Product",
 		"fieldname": "interest_calculation_method",
 		"fieldtype": "Select",
@@ -13,6 +14,7 @@
 	},
 	{
 		"doctype": "Custom Field",
+		"name": "Loan Application-interest_calculation_method",
 		"dt": "Loan Application",
 		"fieldname": "interest_calculation_method",
 		"fieldtype": "Select",
@@ -25,6 +27,7 @@
 	},
 	{
 		"doctype": "Custom Field",
+		"name": "Loan Application-total_interest_amount",
 		"dt": "Loan Application",
 		"fieldname": "total_interest_amount",
 		"fieldtype": "Currency",
@@ -36,6 +39,7 @@
 	},
 	{
 		"doctype": "Custom Field",
+		"name": "Loan Application-total_payable_amount",
 		"dt": "Loan Application",
 		"fieldname": "total_payable_amount",
 		"fieldtype": "Currency",
@@ -47,6 +51,7 @@
 	},
 	{
 		"doctype": "Custom Field",
+		"name": "Loan-interest_calculation_method",
 		"dt": "Loan",
 		"fieldname": "interest_calculation_method",
 		"fieldtype": "Select",
@@ -59,6 +64,7 @@
 	},
 	{
 		"doctype": "Custom Field",
+		"name": "Loan-total_interest_payable",
 		"dt": "Loan",
 		"fieldname": "total_interest_payable",
 		"fieldtype": "Currency",
@@ -70,6 +76,7 @@
 	},
 	{
 		"doctype": "Custom Field",
+		"name": "Loan-total_payable_amount",
 		"dt": "Loan",
 		"fieldname": "total_payable_amount",
 		"fieldtype": "Currency",
