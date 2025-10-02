@@ -134,6 +134,16 @@ override_doctype_class = {
 	"Loan": "lending_custom.overrides.LoanOverride",
 	"Loan Repayment Schedule": "lending_custom.overrides.LoanRepaymentScheduleOverride"
 }
+
+# Doc Events
+# -----------
+
+doc_events = {
+	"Company": {
+		"validate": "lending_custom.overrides.company.validate_loan_tables",
+	}
+}
+
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
