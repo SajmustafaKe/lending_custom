@@ -130,9 +130,9 @@ app_license = "mit"
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Loan Application": "lending_custom.overrides.LoanApplicationOverride",
-	"Loan": "lending_custom.overrides.LoanOverride",
-	"Loan Repayment Schedule": "lending_custom.overrides.LoanRepaymentScheduleOverride"
+	"Loan Application": "lending_custom.overrides.loan_application.LoanApplicationOverride",
+	"Loan": "lending_custom.overrides.loan.LoanOverride",
+	"Loan Repayment Schedule": "lending_custom.overrides.loan_repayment_schedule.LoanRepaymentScheduleOverride"
 }
 
 # Doc Events
