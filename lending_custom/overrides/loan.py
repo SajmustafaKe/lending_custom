@@ -28,6 +28,11 @@ class LoanOverride(Loan):
 		if self.is_term_loan:
 			self.calculate_repayment_details()
 
+		# Set repayment_start_date if not set
+		if not self.repayment_start_date:
+			self.repayment_start_date = frappe.utils.nowdate()
+			print(f"DEBUG Loan.validate: Set repayment_start_date to {self.repayment_start_date}")
+
 		# Call parent validate
 		super().validate()
 

@@ -18,13 +18,18 @@ class LoanRepaymentScheduleOverride(LoanRepaymentSchedule):
 	def validate(self):
 		print(f"DEBUG LoanRepaymentSchedule.validate: START - loan={self.loan}, loan_product={self.loan_product}")
 
-		# Get interest calculation method
+		# Get interest calculation method from the loan
 		interest_calc_method = None
-		if self.loan_product:
-			interest_calc_method = frappe.db.get_value("Loan Product", self.loan_product, "interest_calculation_method")
-			print(f"DEBUG LoanRepaymentSchedule.validate: Retrieved interest_calc_method='{interest_calc_method}' from loan_product='{self.loan_product}'")
+		if self.loan:
+			interest_calc_method = frappe.db.get_value("Loan", self.loan, "interest_calculation_method")
+			print(f"DEBUG LoanRepaymentSchedule.validate: Retrieved interest_calc_method='{interest_calc_method}' from loan='{self.loan}'")
 		else:
-			print(f"DEBUG LoanRepaymentSchedule.validate: No loan_product set")
+			print(f"DEBUG LoanRepaymentSchedule.validate: No loan set")
+
+		# Set repayment_start_date if not set
+		if not self.repayment_start_date:
+			self.repayment_start_date = frappe.utils.nowdate()
+			print(f"DEBUG LoanRepaymentSchedule.validate: Set repayment_start_date to {self.repayment_start_date}")
 
 		if interest_calc_method == "One-time Percentage":
 			print(f"DEBUG LoanRepaymentSchedule.validate: Using one-time percentage validation flow")
@@ -126,10 +131,10 @@ class LoanRepaymentScheduleOverride(LoanRepaymentSchedule):
 		additional_days,
 		carry_forward_interest=0,
 	):
-		# Get interest calculation method from loan product
+		# Get interest calculation method from loan
 		interest_calc_method = None
-		if self.loan_product:
-			interest_calc_method = frappe.db.get_value("Loan Product", self.loan_product, "interest_calculation_method")
+		if self.loan:
+			interest_calc_method = frappe.db.get_value("Loan", self.loan, "interest_calculation_method")
 
 		print(f"DEBUG LoanRepaymentSchedule.get_amounts: START - method={interest_calc_method}, balance_amount={balance_amount}, monthly_repayment_amount={self.monthly_repayment_amount}, loan_product={self.loan_product}")
 
@@ -168,21 +173,19 @@ class LoanRepaymentScheduleOverride(LoanRepaymentSchedule):
 			)
 
 	def make_repayment_schedule(self):
-		# Get interest calculation method
+		# Get interest calculation method from the loan
 		interest_calc_method = None
-		if self.loan_product:
-			interest_calc_method = frappe.db.get_value("Loan Product", self.loan_product, "interest_calculation_method")
-			print(f"DEBUG LoanRepaymentSchedule.make_repayment_schedule: Retrieved interest_calc_method='{interest_calc_method}' from loan_product='{self.loan_product}'")
+		if self.loan:
+			interest_calc_method = frappe.db.get_value("Loan", self.loan, "interest_calculation_method")
+			print(f"DEBUG LoanRepaymentSchedule.make_repayment_schedule: Retrieved interest_calc_method='{interest_calc_method}' from loan='{self.loan}'")
 		else:
-			print(f"DEBUG LoanRepaymentSchedule.make_repayment_schedule: No loan_product set")
+			print(f"DEBUG LoanRepaymentSchedule.make_repayment_schedule: No loan set")
 
 		print(f"DEBUG LoanRepaymentSchedule.make_repayment_schedule: START - method={interest_calc_method}, monthly_repayment_amount={self.monthly_repayment_amount}")
 
 		if interest_calc_method == "One-time Percentage":
 			print(f"DEBUG LoanRepaymentSchedule.make_repayment_schedule: Using one-time percentage schedule generation")
 			# Use custom schedule generation for one-time percentage
-			if not self.repayment_start_date:
-				frappe.throw(_("Repayment Start Date is mandatory for term loans"))
 
 			schedule_type_details = frappe.db.get_value(
 				"Loan Product", self.loan_product, ["repayment_schedule_type", "repayment_date_on"], as_dict=1
