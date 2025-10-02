@@ -21,6 +21,9 @@ class LoanOverride(Loan):
 
 		print(f"DEBUG Loan.validate: interest_calculation_method={self.interest_calculation_method}, loan_product={self.loan_product}")
 
+		# Set loan amount if not set
+		self.set_loan_amount()
+
 		# Calculate repayment details for term loans
 		if self.is_term_loan:
 			self.calculate_repayment_details()
@@ -38,6 +41,11 @@ class LoanOverride(Loan):
 	def calculate_repayment_details(self):
 		"""Calculate repayment details based on repayment method and interest calculation method"""
 		print(f"DEBUG Loan.calculate_repayment_details: START - method={self.repayment_method}, interest_calc={self.interest_calculation_method}, loan_amount={self.loan_amount}, rate={self.rate_of_interest}, periods={self.repayment_periods}")
+		
+		# Skip if required fields are not set
+		if not self.loan_amount or not self.rate_of_interest:
+			return
+			
 		if self.repayment_method == "Repay Over Number of Periods":
 			from lending_custom.interest_calculations import get_monthly_repayment_amount_custom
 			self.monthly_repayment_amount = get_monthly_repayment_amount_custom(
@@ -56,6 +64,8 @@ class LoanOverride(Loan):
 				print(f"DEBUG Loan: One-time percentage - total_amount={total_amount}, periods={self.repayment_periods}")
 			else:
 				# Original calculation for monthly prorated
+				if not self.monthly_repayment_amount:
+					return
 				monthly_interest_rate = flt(self.rate_of_interest) / (12 * 100)
 				if monthly_interest_rate:
 					min_repayment_amount = self.loan_amount * monthly_interest_rate
