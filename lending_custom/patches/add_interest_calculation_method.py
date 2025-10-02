@@ -22,7 +22,8 @@ def execute():
 		pass
 	# Ensure column exists
 	if not frappe.db.has_column('Loan Product', 'interest_calculation_method'):
-		frappe.db.sql("ALTER TABLE `tabLoan Product` ADD COLUMN `interest_calculation_method` varchar(140)")
+		table_name = frappe.db.get_table_name('Loan Product')
+		frappe.db.sql(f"ALTER TABLE `{table_name}` ADD COLUMN `interest_calculation_method` varchar(140)")
 	
 	# Add interest calculation method to Loan Application
 	cf = frappe.get_doc({
@@ -41,7 +42,8 @@ def execute():
 	except:
 		pass
 	if not frappe.db.has_column('Loan Application', 'interest_calculation_method'):
-		frappe.db.sql("ALTER TABLE `tabLoan Application` ADD COLUMN `interest_calculation_method` varchar(140)")
+		table_name = frappe.db.get_table_name('Loan Application')
+		frappe.db.sql(f"ALTER TABLE `{table_name}` ADD COLUMN `interest_calculation_method` varchar(140)")
 	
 	# Add interest calculation method to Loan
 	cf = frappe.get_doc({
@@ -60,4 +62,5 @@ def execute():
 	except:
 		pass
 	if not frappe.db.has_column('Loan', 'interest_calculation_method'):
-		frappe.db.sql("ALTER TABLE `tabLoan` ADD COLUMN `interest_calculation_method` varchar(140)")
+		table_name = frappe.db.get_table_name('Loan')
+		frappe.db.sql(f"ALTER TABLE `{table_name}` ADD COLUMN `interest_calculation_method` varchar(140)")
