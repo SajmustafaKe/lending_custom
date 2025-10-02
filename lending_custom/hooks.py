@@ -85,6 +85,11 @@ app_license = "mit"
 # before_install = "lending_custom.install.before_install"
 # after_install = "lending_custom.install.after_install"
 
+# Fixtures
+# --------
+
+fixtures = ["Custom Field"]
+
 # Patches
 # -------
 
