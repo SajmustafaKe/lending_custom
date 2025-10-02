@@ -134,13 +134,15 @@ override_doctype_class = {
 	"Loan": "lending_custom.overrides.LoanOverride",
 	"Loan Repayment Schedule": "lending_custom.overrides.LoanRepaymentScheduleOverride"
 }
-#
-# each overriding function accepts a `data` argument;
-# generated from the base implementation of the doctype dashboard,
-# along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "lending_custom.task.get_dashboard_data"
-# }
+
+# Doc Events
+# -----------
+
+doc_events = {
+	"Company": {
+		"validate": "lending_custom.overrides.company.validate_loan_tables",
+	}
+}
 
 # exempt linked doctypes from being automatically cancelled
 #
