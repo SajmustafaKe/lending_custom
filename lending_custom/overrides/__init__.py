@@ -1,3 +1,4 @@
 from .loan_application import LoanApplicationOverride
 from .loan import LoanOverride
 from .loan_repayment_schedule import LoanRepaymentScheduleOverride
+from .loan_repayment import LoanRepaymentOverride
