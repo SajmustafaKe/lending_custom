@@ -1,23 +1,21 @@
+from lending.loan_management.doctype.loan_repayment.loan_repayment import LoanRepayment
 import frappe
 from frappe import _
-from lending.loan_management.doctype.loan_repayment.loan_repayment import LoanRepayment
-
+from frappe.utils import get_datetime
 
 class LoanRepaymentOverride(LoanRepayment):
 	def check_future_entries(self):
 		"""
-		Override the check_future_entries method to allow repayments
-		even if future repayments exist (for one-time percentage loans)
+		Override the check_future_entries method to allow overriding the validation
+		for specific conditions (e.g., corrections or authorized users)
 		"""
-		# Get the loan's interest calculation method
-		interest_calc_method = frappe.db.get_value("Loan", self.against_loan, "interest_calculation_method")
-
-		if interest_calc_method == "One-time Percentage":
-			# For one-time percentage loans, allow repayments even if future entries exist
-			# This bypasses the standard validation that prevents overlapping repayment dates
+		# Check if user has permission to override or if it's marked as a correction
+		if self.has_permission("override_repayment_validation") or getattr(self, 'is_correction_entry', False):
+			# Skip the future entries check
+			frappe.msgprint(_("Repayment date validation overridden for correction entry."), indicator="orange")
 			return
 
-		# For monthly prorated loans, use the original validation
+		# Original validation logic
 		future_repayment_date = frappe.db.get_value(
 			"Loan Repayment",
 			{"posting_date": (">", self.posting_date), "docstatus": 1, "against_loan": self.against_loan},
@@ -25,4 +23,4 @@ class LoanRepaymentOverride(LoanRepayment):
 		)
 
 		if future_repayment_date:
-			frappe.throw("Repayment already made till date {0}".format(frappe.utils.get_datetime(future_repayment_date)))
+			frappe.throw("Repayment already made till date {0}".format(get_datetime(future_repayment_date)))
