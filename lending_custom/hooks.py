@@ -42,6 +42,11 @@ app_license = "mit"
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
 
+# Include JS for mint app extensions
+app_include_js = [
+	"/assets/lending_custom/js/mint_extension.js"
+]
+
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -79,6 +84,19 @@ app_license = "mit"
 # 	"filters": "lending_custom.utils.jinja_filters"
 # }
 
+# Whitelisted Methods for Bank Reconciliation
+# ------------------------------------------
+whitelisted_methods = [
+	"lending_custom.loan_repayment_reconciliation.get_loan_repayments_for_bank_reconciliation",
+	"lending_custom.loan_repayment_reconciliation.reconcile_loan_repayments_with_bank_transaction",
+	"lending_custom.loan_repayment_reconciliation.get_loan_repayment_amount_for_bank_reconciliation",
+	"lending_custom.mint_apis.get_mint_document_types_for_bank_reconciliation"
+]
+
+# Startup
+# -------
+boot_session = "lending_custom.function_overrides.apply_lending_overrides"
+
 # Installation
 # ------------
 
@@ -94,7 +112,8 @@ fixtures = ["Custom Field"]
 # -------
 
 patches = [
-	"lending_custom.patches.add_interest_calculation_method"
+	"lending_custom.patches.add_interest_calculation_method",
+	"lending_custom.patches.auto_update_mint_loan_reconciliation.execute"
 ]
 
 # Uninstallation
@@ -146,7 +165,8 @@ override_doctype_class = {
 	"Loan": "lending_custom.overrides.LoanOverride",
 	"Loan Repayment Schedule": "lending_custom.overrides.LoanRepaymentScheduleOverride",
 	"Loan Repayment": "lending_custom.overrides.LoanRepaymentOverride",
-	"Process Loan Interest Accrual": "lending_custom.overrides.ProcessLoanInterestAccrualOverride"
+	"Process Loan Interest Accrual": "lending_custom.overrides.ProcessLoanInterestAccrualOverride",
+	"Bank Transaction": "lending_custom.overrides.bank_transaction.BankTransactionOverride"
 }
 
 # Doc Events
