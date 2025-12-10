@@ -145,7 +145,8 @@ override_doctype_class = {
 	"Loan Application": "lending_custom.overrides.LoanApplicationOverride",
 	"Loan": "lending_custom.overrides.LoanOverride",
 	"Loan Repayment Schedule": "lending_custom.overrides.LoanRepaymentScheduleOverride",
-	"Loan Repayment": "lending_custom.overrides.LoanRepaymentOverride"
+	"Loan Repayment": "lending_custom.overrides.LoanRepaymentOverride",
+	"Process Loan Interest Accrual": "lending_custom.overrides.ProcessLoanInterestAccrualOverride"
 }
 
 # Doc Events

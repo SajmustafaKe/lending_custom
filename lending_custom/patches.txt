@@ -5,3 +5,4 @@
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 lending_custom.patches.add_interest_calculation_method
+lending_custom.patches.enable_historical_interest_accrual_processing

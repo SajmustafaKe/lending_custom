@@ -37,5 +37,27 @@
 		"insert_after": "rate_of_interest",
 		"description": "Monthly Prorated: Interest calculated monthly (rate/12 * principal). One-time Percentage: Interest calculated as percentage of principal amount.",
 		"reqd": 0
+	},
+	{
+		"doctype": "Custom Field",
+		"name": "Process Loan Interest Accrual-start_date",
+		"dt": "Process Loan Interest Accrual",
+		"fieldname": "start_date",
+		"fieldtype": "Date",
+		"label": "Start Date",
+		"insert_after": "posting_date",
+		"description": "Start date for historical accrual processing",
+		"reqd": 0
+	},
+	{
+		"doctype": "Custom Field",
+		"name": "Process Loan Interest Accrual-end_date",
+		"dt": "Process Loan Interest Accrual",
+		"fieldname": "end_date",
+		"fieldtype": "Date",
+		"label": "End Date",
+		"insert_after": "start_date",
+		"description": "End date for historical accrual processing",
+		"reqd": 0
 	}
 ]
