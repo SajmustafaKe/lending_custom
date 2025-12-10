@@ -35,8 +35,11 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 
 	def _process_for_date(self, posting_date, open_loans, loan_doc):
 		"""Process accrual for a specific date"""
+		frappe.logger().info(f"Processing accrual for date {posting_date} in {self.name}")
+		
 		# Process demand loans when process_type is not set or is "Demand Loans"
 		if (not self.loan or (loan_doc and not loan_doc.is_term_loan)) and (not self.process_type or self.process_type != "Term Loans"):
+			frappe.logger().info(f"Processing demand loans for {posting_date}")
 			make_accrual_interest_entry_for_demand_loans(
 				posting_date,
 				self.name,
@@ -47,6 +50,7 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 
 		# Process term loans when process_type is not set or is "Term Loans"
 		if (not self.loan or (loan_doc and loan_doc.is_term_loan)) and (not self.process_type or self.process_type != "Demand Loans"):
+			frappe.logger().info(f"Processing term loans for {posting_date}")
 			make_accrual_interest_entry_for_term_loans(
 				posting_date,
 				self.name,

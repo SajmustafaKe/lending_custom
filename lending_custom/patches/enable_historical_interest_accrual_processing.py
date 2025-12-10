@@ -92,8 +92,64 @@ def execute():
 		if flt(payable_interest, precision) > 0.0:
 			loan_interest_accrual.make_loan_interest_accrual_entry(args)
 	
+	def patched_get_term_loans(date, term_loan=None, loan_product=None):
+		"""Modified to allow historical processing by not requiring active status for old loans"""
+		loan = frappe.qb.DocType("Loan")
+		loan_schedule = frappe.qb.DocType("Loan Repayment Schedule")
+		loan_repayment_schedule = frappe.qb.DocType("Repayment Schedule")
+
+		query = (
+			frappe.qb.from_(loan)
+			.inner_join(loan_schedule)
+			.on(loan.name == loan_schedule.loan)
+			.inner_join(loan_repayment_schedule)
+			.on(loan_repayment_schedule.parent == loan_schedule.name)
+			.select(
+				loan.name,
+				loan.total_payment,
+				loan.total_amount_paid,
+				loan.loan_account,
+				loan.interest_income_account,
+				loan.is_term_loan,
+				loan.disbursement_date,
+				loan.applicant_type,
+				loan.applicant,
+				loan.rate_of_interest,
+				loan.total_interest_payable,
+				loan.repayment_start_date,
+				loan_repayment_schedule.name.as_("payment_entry"),
+				loan_repayment_schedule.payment_date,
+				loan_repayment_schedule.principal_amount,
+				loan_repayment_schedule.interest_amount,
+				loan_repayment_schedule.is_accrued,
+				loan_repayment_schedule.balance_loan_amount,
+			)
+			.where(
+				(loan.docstatus == 1)
+				& (loan.status == "Disbursed")
+				& (loan.is_term_loan == 1)
+				& (loan_schedule.docstatus == 1)  # Added missing condition
+				# Removed: & (loan_schedule.status == "Active")  # Allow historical processing
+				& (loan_repayment_schedule.principal_amount > 0)
+				& (loan_repayment_schedule.payment_date <= date)
+				& (loan_repayment_schedule.is_accrued == 0)
+				& (loan_repayment_schedule.docstatus == 1)
+			)
+		)
+
+		if term_loan:
+			query = query.where(loan.name == term_loan)
+
+		if loan_product:
+			query = query.where(loan.loan_product == loan_product)
+
+		term_loans = query.run(as_dict=1)
+
+		return term_loans
+	
 	# Apply patches
 	loan_interest_accrual.get_last_accrual_date = patched_get_last_accrual_date
 	loan_interest_accrual.calculate_accrual_amount_for_demand_loans = patched_calculate_accrual_amount_for_demand_loans
+	loan_interest_accrual.get_term_loans = patched_get_term_loans
 	
 	frappe.logger().info("Historical interest accrual processing enabled")
