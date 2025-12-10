@@ -7,3 +7,4 @@
 lending_custom.patches.add_interest_calculation_method
 lending_custom.patches.enable_historical_interest_accrual_processing
 lending_custom.patches.historical_interest_accrual_override
+lending_custom.patches.auto_update_mint_loan_reconciliation

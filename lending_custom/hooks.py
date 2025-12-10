@@ -95,7 +95,8 @@ whitelisted_methods = [
 
 # Startup
 # -------
-boot_session = "lending_custom.function_overrides.apply_lending_overrides"
+# Note: Overrides are applied at module import level in __init__.py to ensure they persist
+# boot_session = "lending_custom.function_overrides.apply_lending_overrides"
 
 # Installation
 # ------------

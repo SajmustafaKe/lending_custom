@@ -67,7 +67,7 @@ def get_term_loans_override(date, term_loan=None, loan_product=None):
 	return term_loans
 
 
-def apply_lending_overrides():
+def apply_lending_overrides(bootinfo=None):
 	"""Apply all lending-related overrides"""
 	try:
 		from lending.loan_management.doctype.loan_interest_accrual import loan_interest_accrual
