@@ -12,6 +12,7 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 	def on_submit(self):
 		"""Override to support date range processing for historical accruals"""
 		open_loans = []
+		loan_doc = None
 
 		if self.loan:
 			loan_doc = frappe.get_doc("Loan", self.loan)
@@ -34,7 +35,7 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 
 	def _process_for_date(self, posting_date, open_loans, loan_doc):
 		"""Process accrual for a specific date"""
-		if (not self.loan or not loan_doc.is_term_loan) and self.process_type != "Term Loans":
+		if (not self.loan or (loan_doc and not loan_doc.is_term_loan)) and self.process_type != "Term Loans":
 			make_accrual_interest_entry_for_demand_loans(
 				posting_date,
 				self.name,
@@ -43,7 +44,7 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 				accrual_type=self.accrual_type or "Regular",
 			)
 
-		if (not self.loan or loan_doc.is_term_loan) and self.process_type != "Demand Loans":
+		if (not self.loan or (loan_doc and loan_doc.is_term_loan)) and self.process_type != "Demand Loans":
 			make_accrual_interest_entry_for_term_loans(
 				posting_date,
 				self.name,
