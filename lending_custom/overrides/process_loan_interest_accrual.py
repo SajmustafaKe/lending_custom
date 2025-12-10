@@ -35,7 +35,8 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 
 	def _process_for_date(self, posting_date, open_loans, loan_doc):
 		"""Process accrual for a specific date"""
-		if (not self.loan or (loan_doc and not loan_doc.is_term_loan)) and self.process_type != "Term Loans":
+		# Process demand loans when process_type is not set or is "Demand Loans"
+		if (not self.loan or (loan_doc and not loan_doc.is_term_loan)) and (not self.process_type or self.process_type != "Term Loans"):
 			make_accrual_interest_entry_for_demand_loans(
 				posting_date,
 				self.name,
@@ -44,7 +45,8 @@ class ProcessLoanInterestAccrualOverride(ProcessLoanInterestAccrual):
 				accrual_type=self.accrual_type or "Regular",
 			)
 
-		if (not self.loan or (loan_doc and loan_doc.is_term_loan)) and self.process_type != "Demand Loans":
+		# Process term loans when process_type is not set or is "Term Loans"
+		if (not self.loan or (loan_doc and loan_doc.is_term_loan)) and (not self.process_type or self.process_type != "Demand Loans"):
 			make_accrual_interest_entry_for_term_loans(
 				posting_date,
 				self.name,
