@@ -102,12 +102,21 @@ whitelisted_methods = [
 # ------------
 
 # before_install = "lending_custom.install.before_install"
-# after_install = "lending_custom.install.after_install"
+after_install = "lending_custom.patches.auto_update_mint_loan_reconciliation.execute"
+
+# Hooks to ensure mint app is updated after system updates
+after_migrate = [
+	"lending_custom.patches.auto_update_mint_loan_reconciliation.execute"
+]
 
 # Fixtures
 # --------
 
 fixtures = ["Custom Field"]
+
+# Commands
+# --------
+from lending_custom.commands import commands
 
 # Patches
 # -------
