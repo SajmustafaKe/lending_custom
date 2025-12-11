@@ -125,7 +125,7 @@ fixtures = ["Custom Field"]
 
 # Commands
 # --------
-from lending_custom.commands import commands
+# Commands are registered via get_commands() function in commands.py
 
 # Patches
 # -------

@@ -166,8 +166,14 @@ def regenerate_loan_gl_entries(context, site=None, limit=None, preview=False):
 			frappe.destroy()
 
 
-commands = [
-	update_mint_loan_filters,
-	auto_reconcile_loan_repayments,
-	regenerate_loan_gl_entries
-]
+# Commands list for Frappe
+def get_commands():
+	"""Return list of commands for Frappe CLI"""
+	return [
+		update_mint_loan_filters,
+		auto_reconcile_loan_repayments,
+		regenerate_loan_gl_entries
+	]
+
+
+commands = get_commands()
