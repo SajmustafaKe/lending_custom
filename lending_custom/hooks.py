@@ -48,8 +48,12 @@ app_include_js = [
 ]
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_js = {
+	"Bank Reconciliation Tool": "public/js/bank_reconciliation_tool.js"
+}
+doctype_list_js = {
+	"Loan Repayment": "public/js/loan_repayment_list.js"
+}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -90,7 +94,12 @@ whitelisted_methods = [
 	"lending_custom.loan_repayment_reconciliation.get_loan_repayments_for_bank_reconciliation",
 	"lending_custom.loan_repayment_reconciliation.reconcile_loan_repayments_with_bank_transaction",
 	"lending_custom.loan_repayment_reconciliation.get_loan_repayment_amount_for_bank_reconciliation",
-	"lending_custom.mint_apis.get_mint_document_types_for_bank_reconciliation"
+	"lending_custom.mint_apis.get_mint_document_types_for_bank_reconciliation",
+	"lending_custom.loan_auto_reconciliation.auto_reconcile_loan_repayments",
+	"lending_custom.loan_auto_reconciliation.get_loan_repayment_reconciliation_preview",
+	"lending_custom.loan_auto_reconciliation.reconcile_selected_transactions",
+	"lending_custom.regenerate_gl_entries.preview_missing_gl_entries",
+	"lending_custom.regenerate_gl_entries.regenerate_gl_entries_api"
 ]
 
 # Startup
